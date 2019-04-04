@@ -5,7 +5,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-    <com.yuefeng.bubblelib.BubbleLayout
+    <com.yuefeng.lib.bubble.BubbleLayout
             android:id="@+id/bubbleLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
         <ListView
                 android:id="@+id/listView"
                 android:layout_width="300dp" android:layout_height="180dp"/>
-    </com.yuefeng.bubblelib.BubbleLayout>
+    </com.yuefeng.lib.bubble.BubbleLayout>
 
 
 </LinearLayout>

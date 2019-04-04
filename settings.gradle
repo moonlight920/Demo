@@ -1,1 +1,1 @@
-include ':app', ':lib', ':bubblelib'
+include ':app', ':lib'

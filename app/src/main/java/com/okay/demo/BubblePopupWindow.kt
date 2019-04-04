@@ -4,9 +4,9 @@ import android.content.Context
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ListView
-import com.yuefeng.bubblelib.BubbleLayout
 import com.yuefeng.lib.OkBasePopup
 import com.yuefeng.lib.XGravity
+import com.yuefeng.lib.bubble.BubbleLayout
 
 class BubblePopupWindow private constructor(private var mContext: Context) : OkBasePopup<BubblePopupWindow>() {
 
