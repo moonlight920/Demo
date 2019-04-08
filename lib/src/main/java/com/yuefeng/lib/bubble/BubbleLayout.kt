@@ -40,10 +40,11 @@ class BubbleLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private var mRect: RectF
 
-    @IntDef(LEFT, TOP, RIGHT, BOTTOM)
+    @IntDef(NONE,LEFT, TOP, RIGHT, BOTTOM)
     private annotation class Direction
 
     companion object {
+        const val NONE = 0
         const val LEFT = 1
         const val TOP = 2
         const val RIGHT = 3
@@ -92,7 +93,7 @@ class BubbleLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         // 画矩形
         mPath.addRoundRect(mRect, mRadius.toFloat(), mRadius.toFloat(), Path.Direction.CCW)
         canvas.drawPath(mPath, mBorderPaint)
-        if (mDatumPoint.x > 0 && mDatumPoint.y > 0)
+        if (mDirection != NONE && mDatumPoint.x > 0 && mDatumPoint.y > 0)
         // 根据基点算出三个顶点，画三角
             when (mDirection) {
                 LEFT -> drawLeftTriangle(canvas)
@@ -170,6 +171,10 @@ class BubbleLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         canvas.drawPath(mPath, mBorderPaint)
     }
 
+    fun setDirection(@Direction direction:Int){
+        mDirection = direction
+    }
+
     /**
      * 根据padding计算矩形的位置
      * 再根据矩形的宽高和padding，计算出三角形基点的位置
@@ -208,7 +213,7 @@ class BubbleLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
                 mOffset = -(h / 2 - triangleMarginTop)
             }
             triangleMarginBottom > 0 -> {
-                mOffset = h / 2 - triangleMarginTop
+                mOffset = h / 2 - triangleMarginBottom
             }
             triangleMarginLeft > 0 -> {
                 mOffset = -(w / 2 - triangleMarginLeft)

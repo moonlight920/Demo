@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="x_left"/>
+    <item type="id" name="x_right"/>
+    <item type="id" name="x_center"/>
+    <item type="id" name="x_align_left"/>
+    <item type="id" name="x_align_right"/>
+
+    <item type="id" name="y_above"/>
+    <item type="id" name="y_below"/>
+    <item type="id" name="y_align_top"/>
+    <item type="id" name="y_align_bottom"/>
+    <item type="id" name="y_center"/>
+</resources>

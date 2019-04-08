@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.RadioGroup
+import android.widget.SeekBar
 import com.yuefeng.lib.XGravity
 import com.yuefeng.lib.YGravity
 
@@ -19,8 +21,6 @@ class Demo1Fragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var btnCenter: Button
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.apply {
@@ -28,6 +28,11 @@ class Demo1Fragment : Fragment() {
             param2 = getString(ARG_PARAM2)
         }
     }
+
+    var xGravity = XGravity.LEFT
+    var yGravity = YGravity.ALIGN_BOTTOM
+    var mXOff = 0
+    var mYOff = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,31 +42,53 @@ class Demo1Fragment : Fragment() {
 
         view.findViewById<Button>(R.id.btnCenter).setOnClickListener {
             var pop = BubblePopupWindow.create(context!!).build()
-//            pop.showAtAnchorView(it, XGravity.ALIGN_RIGHT, YGravity.BELOW, 30, 0)
-            pop.showAtAnchorView(it, XGravity.ALIGN_LEFT, YGravity.BELOW, 30, 0)
+            pop.showAtAnchorView(it, xGravity, yGravity, mXOff, mYOff)
         }
 
-
-        view.findViewById<Button>(R.id.btnLeftTop).setOnClickListener {
-            var pop = BubblePopupWindow.create(context!!).build()
-            pop.showAtAnchorView(it, XGravity.CENTER, YGravity.BELOW, 0, 0)
-
+        view.findViewById<RadioGroup>(R.id.xRadioGroup).setOnCheckedChangeListener { group, checkedId ->
+            xGravity = when (checkedId) {
+                R.id.x_left -> XGravity.LEFT
+                R.id.x_right -> XGravity.RIGHT
+                R.id.x_center -> XGravity.CENTER
+                R.id.x_align_left -> XGravity.ALIGN_LEFT
+                R.id.x_align_right -> XGravity.ALIGN_RIGHT
+                else -> XGravity.CENTER
+            }
         }
-        view.findViewById<Button>(R.id.btnLeftBottom).setOnClickListener {
-            var pop = BubblePopupWindow.create(context!!).build()
-            pop.showAtAnchorView(it, XGravity.CENTER, YGravity.BELOW, 0, 0)
-
+        view.findViewById<RadioGroup>(R.id.yRadioGroup).setOnCheckedChangeListener { group, checkedId ->
+            yGravity = when (checkedId) {
+                R.id.y_above -> YGravity.ABOVE
+                R.id.y_below -> YGravity.BELOW
+                R.id.y_align_bottom -> YGravity.ALIGN_BOTTOM
+                R.id.y_align_top -> YGravity.ALIGN_TOP
+                R.id.y_center -> YGravity.CENTER
+                else -> YGravity.CENTER
+            }
         }
-        view.findViewById<Button>(R.id.btnRightTop).setOnClickListener {
-            var pop = BubblePopupWindow.create(context!!).build()
-            pop.showAtAnchorView(it, XGravity.CENTER, YGravity.BELOW, 0, 0)
+        view.findViewById<SeekBar>(R.id.xOff).setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
 
-        }
-        view.findViewById<Button>(R.id.btnRightBottom).setOnClickListener {
-            var pop = BubblePopupWindow.create(context!!).build()
-            pop.showAtAnchorView(it, XGravity.CENTER, YGravity.BELOW, 0, 0)
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
 
-        }
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                mXOff = (progress - 50) * 10
+            }
+
+        })
+        view.findViewById<SeekBar>(R.id.yOff).setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                mYOff = (progress - 50) * 10
+            }
+
+        })
 
         return view
     }
