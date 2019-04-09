@@ -11,14 +11,11 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             app:background_color="#FF4081"
-            android:background="#000000"
             app:direction="top"
             app:radius="4dp"
             app:shadow_color="#999999"
             app:shadow_size="8dp">
-        <ListView
-                android:id="@+id/listView"
-                android:layout_width="50dp" android:layout_height="180dp"/>
+
     </com.yuefeng.lib.bubble.BubbleLayout>
 
 

@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.support.annotation.IntDef
 import android.util.AttributeSet
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.FrameLayout
@@ -32,7 +33,7 @@ class BubbleLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
     /**
      * 三角形位置偏移量(默认居中)。三角形在上下，则是x轴偏移；三角形在左右，则是y轴偏移
      */
-    private var mOffset: Int = 0
+    var offset: Int = 0
 
     private var mBorderPaint: Paint
 
@@ -40,9 +41,14 @@ class BubbleLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private var mRect: RectF
 
-    @IntDef(NONE,LEFT, TOP, RIGHT, BOTTOM)
+    internal var onBubbleLayoutSizeChangeListener: OnBubbleLayoutSizeChangeListener? = null
+
+    @IntDef(NONE, LEFT, TOP, RIGHT, BOTTOM)
     private annotation class Direction
 
+    /**
+     * 表示箭头的朝向，NONE没有箭头
+     */
     companion object {
         const val NONE = 0
         const val LEFT = 1
@@ -70,7 +76,7 @@ class BubbleLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         mRadius = ta.getDimensionPixelSize(R.styleable.BubbleLayout_radius, 0)
         //三角形方向
         mDirection = ta.getInt(R.styleable.BubbleLayout_direction, BOTTOM)
-        mOffset = ta.getDimensionPixelOffset(R.styleable.BubbleLayout_offset, 0)
+        offset = ta.getDimensionPixelOffset(R.styleable.BubbleLayout_offset, 0)
         ta.recycle()
 
         mBorderPaint = Paint().apply {
@@ -90,10 +96,11 @@ class BubbleLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        mPath.reset()
         // 画矩形
         mPath.addRoundRect(mRect, mRadius.toFloat(), mRadius.toFloat(), Path.Direction.CCW)
         canvas.drawPath(mPath, mBorderPaint)
-        if (mDirection != NONE && mDatumPoint.x > 0 && mDatumPoint.y > 0)
+        if (mDatumPoint.x > 0 && mDatumPoint.y > 0)
         // 根据基点算出三个顶点，画三角
             when (mDirection) {
                 LEFT -> drawLeftTriangle(canvas)
@@ -171,7 +178,7 @@ class BubbleLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
         canvas.drawPath(mPath, mBorderPaint)
     }
 
-    fun setDirection(@Direction direction:Int){
+    fun setDirection(@Direction direction: Int) {
         mDirection = direction
     }
 
@@ -181,6 +188,7 @@ class BubbleLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
      */
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
+        Log.d("onSizeChanged", "new w $w   new h $h")
         mRect.apply {
             left = paddingLeft.toFloat()
             top = paddingTop.toFloat()
@@ -207,46 +215,11 @@ class BubbleLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
         }
 
-        //
-        when {
-            triangleMarginTop > 0 -> {
-                mOffset = -(h / 2 - triangleMarginTop)
-            }
-            triangleMarginBottom > 0 -> {
-                mOffset = h / 2 - triangleMarginBottom
-            }
-            triangleMarginLeft > 0 -> {
-                mOffset = -(w / 2 - triangleMarginLeft)
-            }
-            triangleMarginRight > 0 -> {
-                mOffset = w / 2 - triangleMarginRight
-            }
+        onBubbleLayoutSizeChangeListener?.onSizeChanged(w, h, oldw, oldh)
 
-        }
-
-        if (mOffset != 0) {
+        if (offset != 0) {
             applyOffset()
         }
-    }
-
-    /**
-     * 设置三角形基点到上下左右边界的距离,如果设置了相对于此控件边界的距离，则取代偏移量的设置
-     */
-    var triangleMarginTop = 0
-    var triangleMarginLeft = 0
-    var triangleMarginRight = 0
-    var triangleMarginBottom = 0
-
-
-    /**
-     * 设置三角形偏移位置并重绘
-     *
-     * @param offset 偏移量
-     */
-    fun setTriangleOffset(offset: Int) {
-        this.mOffset = offset
-        applyOffset()
-        invalidate()
     }
 
     /**
@@ -254,8 +227,8 @@ class BubbleLayout @JvmOverloads constructor(context: Context, attrs: AttributeS
      */
     private fun applyOffset() {
         when (mDirection) {
-            LEFT, RIGHT -> mDatumPoint.y += mOffset
-            TOP, BOTTOM -> mDatumPoint.x += mOffset
+            LEFT, RIGHT -> mDatumPoint.y += offset
+            TOP, BOTTOM -> mDatumPoint.x += offset
         }
     }
 }

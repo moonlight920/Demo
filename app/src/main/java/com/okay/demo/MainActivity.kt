@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private val demo1Fragment = Demo1Fragment.newInstance()
+    private val demo2Fragment = Demo2Fragment.newInstance()
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -21,7 +22,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_dashboard -> {
-//                message.setText(R.string.title_dashboard)
+                showFragment(demo2Fragment)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_notifications -> {

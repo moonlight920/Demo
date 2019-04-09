@@ -9,14 +9,17 @@ import android.util.Log
 import android.view.*
 import android.widget.PopupWindow
 
+/**
+ * @author syf created by 2019.4.4
+ */
 abstract class OkBasePopup<T : OkBasePopup<T>> {
 
     companion object {
         const val TAG = "OkBasePopup"
     }
 
-    /**PopupWindow对象
-     *
+    /**
+     * PopupWindow对象
      */
     private var mPopupWindow: PopupWindow? = null
 
@@ -38,8 +41,18 @@ abstract class OkBasePopup<T : OkBasePopup<T>> {
     /**
      * popupWindow宽高
      */
-    private var mWidth = 0
-    private var mHeight = 0
+    var mWidth = 0
+    var mHeight = 0
+
+    private var mAnchorView: View? = null
+
+    @XGravity
+    private var mXGravity = XGravity.ALIGN_LEFT
+    @YGravity
+    private var mYGravity = YGravity.BELOW
+    private var mOffsetX: Int = 0
+    private var mOffsetY: Int = 0
+
 
     /**
      * 弹出动画
@@ -60,6 +73,13 @@ abstract class OkBasePopup<T : OkBasePopup<T>> {
         initContentView()
         // 初始化内部控件
         initView(mContentView!!, self())
+        // 计算popupWindow宽高
+        calcPopupWindowWH()
+//        mContentView!!.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+//        mWidth = mContentView!!.measuredWidth
+//        mHeight = mContentView!!.measuredHeight
+        mPopupWindow!!.width = ViewGroup.LayoutParams.WRAP_CONTENT
+        mPopupWindow!!.height = ViewGroup.LayoutParams.WRAP_CONTENT
 
         if (mAnimationStyle != 0) {
             mPopupWindow!!.animationStyle = mAnimationStyle
@@ -100,11 +120,25 @@ abstract class OkBasePopup<T : OkBasePopup<T>> {
             }
         }
         mPopupWindow?.contentView = mContentView
-        // 测量宽高
-        mContentView!!.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+    }
 
+    /**
+     * 通过内部view 更新PopupWindow宽高
+     */
+    fun updateWHByContentView() {
+        calcPopupWindowWH()
+        updateLocation(mWidth, mHeight, mAnchorView!!, mXGravity, mYGravity, mOffsetX, mOffsetY)
+    }
+
+    /**
+     * 测量popupWindow宽高
+     */
+    private fun calcPopupWindowWH() {
+
+        mContentView!!.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
         mWidth = mContentView!!.measuredWidth
         mHeight = mContentView!!.measuredHeight
+        Log.d(TAG, "mWidth:$mWidth  mHeight$mHeight")
         // 默认宽高是WRAP_CONTENT
         mPopupWindow!!.width = when (mWidth) {
             in 1..Int.MAX_VALUE,
@@ -174,12 +208,6 @@ abstract class OkBasePopup<T : OkBasePopup<T>> {
         }
     }
 
-    open fun showAtAnchorView(anchorView: View, @XGravity xGravity: Int, @YGravity yGravity: Int, xOff: Int, yOff: Int) {
-        val newXOff = calculateX(anchorView, xGravity, mWidth, xOff)
-        val newYOff = calculateY(anchorView, yGravity, mHeight, yOff)
-        PopupWindowCompat.showAsDropDown(mPopupWindow!!, anchorView, newXOff, newYOff, Gravity.NO_GRAVITY)
-    }
-
     /**
      * 计算弹出的X坐标位置
      */
@@ -226,5 +254,53 @@ abstract class OkBasePopup<T : OkBasePopup<T>> {
             }
             else -> yOff
         }
+    }
+
+    open fun showAtAnchorView(
+        anchorView: View, @XGravity xGravity: Int, @YGravity yGravity: Int,
+        xOff: Int,
+        yOff: Int
+    ) {
+        mAnchorView = anchorView
+        mXGravity = xGravity
+        mYGravity = yGravity
+        mOffsetX = xOff
+        mOffsetY = yOff
+        val newXOff = calculateX(anchorView, xGravity, mWidth, xOff)
+        val newYOff = calculateY(anchorView, yGravity, mHeight, yOff)
+
+        PopupWindowCompat.showAsDropDown(mPopupWindow!!, anchorView, newXOff, newYOff, Gravity.NO_GRAVITY)
+    }
+
+    /**
+     * 是否正在显示
+     *
+     * @return
+     */
+    fun isShowing(): Boolean {
+        return mPopupWindow?.isShowing ?: false
+    }
+
+    /**
+     * 更新 PopupWindow 到精准的位置
+     *
+     * @param width
+     * @param height
+     * @param anchor
+     * @param yGravity
+     * @param xGravity
+     * @param x
+     * @param y
+     */
+    private fun updateLocation(
+        width: Int,
+        height: Int,
+        anchor: View, @XGravity xGravity: Int, @YGravity yGravity: Int,
+        x: Int,
+        y: Int
+    ) {
+        val newX = calculateX(anchor, xGravity, width, x)
+        val newY = calculateY(anchor, yGravity, height, y)
+        mPopupWindow?.update(anchor, newX, newY, width, height)
     }
 }

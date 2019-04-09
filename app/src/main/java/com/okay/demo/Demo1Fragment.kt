@@ -1,13 +1,13 @@
 package com.okay.demo
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.RadioGroup
-import android.widget.SeekBar
+import android.widget.*
+import com.yuefeng.lib.BubblePopupWindow
 import com.yuefeng.lib.XGravity
 import com.yuefeng.lib.YGravity
 
@@ -41,7 +41,12 @@ class Demo1Fragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_demo1, container, false)
 
         view.findViewById<Button>(R.id.btnCenter).setOnClickListener {
-            var pop = BubblePopupWindow.create(context!!).build()
+            val view = LayoutInflater.from(context).inflate(R.layout.example_list, null)
+            val listView = view.findViewById<ListView>(R.id.listView)
+
+            listView.adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, arrayListOf("ABCDEFG", "HIJKLMN", "OPQ RST","UVW XYZ"))
+            setListViewBasedOnChildren(listView)
+            val pop = BubblePopupWindow.create(context!!, view)
             pop.showAtAnchorView(it, xGravity, yGravity, mXOff, mYOff)
         }
 
@@ -102,5 +107,23 @@ class Demo1Fragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    fun setListViewBasedOnChildren(listView: ListView) {
+        val listAdapter = listView.adapter ?: return
+        var totalHeight = 0
+        var maxWidth = 0
+        for (i in 0 until listAdapter.count) {
+            val listItem = listAdapter.getView(i, null, listView)
+            listItem.measure(0, 0)
+            totalHeight += listItem.measuredHeight
+            val width = listItem.measuredWidth
+            if (width > maxWidth) maxWidth = width
+        }
+
+        val params = listView.layoutParams
+        params.height = totalHeight + listView.dividerHeight * (listAdapter.count - 1)
+        params.width = maxWidth
+        listView.layoutParams = params
     }
 }

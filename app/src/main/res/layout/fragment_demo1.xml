@@ -1,141 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Demo1Fragment">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".Demo1Fragment">
 
     <LinearLayout
-        android:id="@+id/llGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <RadioGroup
-            android:id="@+id/xRadioGroup"
+            android:id="@+id/llGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <RadioButton
-                android:id="@id/x_left"
+        <RadioGroup
+                android:id="@+id/xRadioGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="x_left" />
+                android:orientation="vertical">
 
             <RadioButton
-                android:id="@+id/x_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="x_right" />
+                    android:id="@id/x_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="左边"/>
 
             <RadioButton
-                android:id="@+id/x_align_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="x_align_left" />
+                    android:id="@+id/x_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="右边"/>
 
             <RadioButton
-                android:id="@+id/x_align_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="x_align_right" />
+                    android:id="@+id/x_align_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="左对齐"/>
 
             <RadioButton
-                android:id="@+id/x_center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="x_center" />
+                    android:id="@+id/x_align_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="右对齐"/>
+
+            <RadioButton
+                    android:id="@+id/x_center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="水平居中"/>
         </RadioGroup>
 
         <RadioGroup
-            android:id="@+id/yRadioGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <RadioButton
-                android:id="@id/y_above"
+                android:id="@+id/yRadioGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="y_above" />
+                android:orientation="vertical">
 
             <RadioButton
-                android:id="@+id/y_below"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="y_below" />
+                    android:id="@id/y_above"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="上面"/>
 
             <RadioButton
-                android:id="@+id/y_align_top"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="y_align_top" />
+                    android:id="@+id/y_below"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="下面"/>
 
             <RadioButton
-                android:id="@+id/y_align_bottom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="y_align_bottom" />
+                    android:id="@+id/y_align_top"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="上对齐"/>
 
             <RadioButton
-                android:id="@+id/y_center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="y_center" />
+                    android:id="@+id/y_align_bottom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="下对齐"/>
+
+            <RadioButton
+                    android:id="@+id/y_center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="垂直居中"/>
         </RadioGroup>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="100dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="X" />
-
-        <SeekBar
-            android:id="@+id/xOff"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="100"
-            android:progress="50" />
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:padding="50dp"
+            android:gravity="center"
+            android:layout_marginBottom="100dp"
+            android:orientation="horizontal">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="X轴偏移量"/>
+
+        <SeekBar
+                android:id="@+id/xOff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:progress="50"/>
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="50dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Y" />
-
-        <SeekBar
-            android:id="@+id/yOff"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="100"
-            android:progress="50" />
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:layout_marginBottom="50dp"
+            android:padding="50dp"
+            android:orientation="horizontal">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Y轴偏移量"/>
+
+        <SeekBar
+                android:id="@+id/yOff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:progress="50"/>
     </LinearLayout>
 
 
     <Button
-        android:id="@+id/btnCenter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
+            android:id="@+id/btnCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:padding="10dp"
+            android:text="我就是个Button"
+            android:layout_centerInParent="true"/>
 
 </RelativeLayout>
