@@ -5,7 +5,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-    <com.yuefeng.lib.bubble.BubbleLayout
+    <com.yf.popbubble.bubble.BubbleLayout
             android:id="@+id/bubbleLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
             app:shadow_color="#999999"
             app:shadow_size="8dp">
 
-    </com.yuefeng.lib.bubble.BubbleLayout>
+    </com.yf.popbubble.bubble.BubbleLayout>
 
 
 </LinearLayout>

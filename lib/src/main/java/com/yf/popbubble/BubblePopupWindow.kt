@@ -1,10 +1,10 @@
-package com.yuefeng.lib
+package com.yf.popbubble
 
 import android.content.Context
 import android.util.Log
 import android.view.View
-import com.yuefeng.lib.bubble.BubbleLayout
-import com.yuefeng.lib.bubble.OnBubbleLayoutSizeChangeListener
+import com.yf.popbubble.bubble.BubbleLayout
+import com.yf.popbubble.bubble.OnBubbleLayoutSizeChangeListener
 
 class BubblePopupWindow private constructor(private var mContext: Context, private var mBubbleContentView: View) :
     OkBasePopup<BubblePopupWindow>() {

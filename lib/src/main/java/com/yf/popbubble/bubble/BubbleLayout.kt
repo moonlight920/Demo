@@ -1,4 +1,4 @@
-package com.yuefeng.lib.bubble
+package com.yf.popbubble.bubble
 
 import android.content.Context
 import android.graphics.*
@@ -8,7 +8,7 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.FrameLayout
-import com.yuefeng.lib.R
+import com.yf.popbubble.R
 
 
 class BubbleLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :

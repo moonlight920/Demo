@@ -1,4 +1,4 @@
-package com.yuefeng.lib
+package com.yf.popbubble
 
 import android.support.annotation.IntDef
 
